@@ -1,6 +1,7 @@
 package WebApp;
 
 import WebApp.login.LoginController;
+import WebApp.register.RegisterController;
 import WebApp.user.UserDao;
 import WebApp.util.Path;
 import io.javalin.Javalin;
@@ -19,6 +20,7 @@ import static j2html.TagCreator.p;
 import static j2html.TagCreator.span;
 
 import WebApp.user.User;
+//import sun.rmi.runtime.Log;
 
 
 public class Main {
@@ -41,7 +43,12 @@ public class Main {
         // ensures users hit login page first
         //app.before(LoginController.ensureLoginBeforeViewingApp);
         // handle post data from "/login"
-        app.post("/login", LoginController.handleLoginPost);
+        app.before(LoginController.ensureLoginBeforeViewingApp);
+        app.get(Path.Web.LOGIN, LoginController.serveLoginPage);
+        app.post(Path.Web.LOGIN, LoginController.handleLoginPost);
+        app.post(Path.Web.LOGOUT, LoginController.handleLogoutPost);
+        app.post(Path.Web.REGISTER, RegisterController.handleRegisterPost);
+
 
     }
 
