@@ -1,17 +1,27 @@
 package WebApp.register;
 
-import WebApp.user.User;
-import WebApp.user.UserController;
-import WebApp.util.RequestUtil;
 import io.javalin.Handler;
 
+import WebApp.user.UserController;
 import WebApp.util.Path;
+
+import static WebApp.util.RequestUtil.*;
+
+
+/*
+    Handles register post form data
+ */
 public class RegisterController {
 
     public static Handler handleRegisterPost = ctx -> {
-        if(!UserController.authenticateCredentials(RequestUtil.getQueryUsername(ctx), RequestUtil.getQueryPassword(ctx))){
-            UserController.addNewUser(RequestUtil.getQueryUsername(ctx), RequestUtil.getQueryPassword(ctx));
+        // if user is not in database.. add to database
+        if(UserController.authenticateCredentials(getQueryUsername(ctx),getQueryPassword(ctx)) || getQueryUsername(ctx).startsWith(" ") || getQueryPassword(ctx).startsWith(" ")){
+                ctx.redirect(Path.Template.REGISTER);
+        }
+        else{
+            UserController.addNewUser(getQueryUsername(ctx), getQueryPassword(ctx));
             ctx.redirect(Path.Web.LOGIN);
         }
+
     };
 }

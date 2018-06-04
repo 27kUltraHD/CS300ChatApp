@@ -1,5 +1,8 @@
 package WebApp.user;
 
+/*
+    Simple user class
+ */
 public class User {
     public final String username;
     public final String password;

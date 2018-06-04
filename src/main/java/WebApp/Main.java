@@ -1,36 +1,34 @@
 package WebApp;
 
-import WebApp.login.LoginController;
-import WebApp.register.RegisterController;
-import WebApp.user.UserDao;
-import WebApp.util.Path;
 import io.javalin.Javalin;
 import io.javalin.embeddedserver.jetty.websocket.WsSession;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.eclipse.jetty.websocket.api.Session;
-import org.json.JSONObject;
-import WebApp.util.HerokuUtil;
-import static j2html.TagCreator.article;
-import static j2html.TagCreator.attrs;
-import static j2html.TagCreator.b;
-import static j2html.TagCreator.p;
-import static j2html.TagCreator.span;
 
+import WebApp.login.LoginController;
+import WebApp.register.RegisterController;
 import WebApp.user.User;
-//import sun.rmi.runtime.Log;
+import WebApp.user.UserController;
+import WebApp.user.UserDao;
+import WebApp.util.HerokuUtil;
+import WebApp.util.Path;
+import WebApp.message.MessageHandler;
 
-
+import static io.javalin.ApiBuilder.*;
+/*
+    This class handles Model-View-Controller interaction
+    // Model UserDao -> User data access object
+    // View onlineUsers
+    // Controllers login/message/register/user
+ */
 public class Main {
-
-
-    public static Map<WsSession, User> onlineUsers = new ConcurrentHashMap<>();
+    // a map of online users with their websocket session as a key and their username as a value
+    public static Map<WsSession, String> onlineUsers = new ConcurrentHashMap<>();
+    // instantiate dependecy
     public static UserDao userDao;// user data access object (database in our example)
 
     public static void main(String[] args){
-
+        // instantiate dependency
         userDao = new UserDao();
         // create an Javalin application
         // set stuff
@@ -38,16 +36,48 @@ public class Main {
         Javalin app = Javalin.create()
                 .port(HerokuUtil.getHerokuAssignedPort())
                 .enableStaticFiles("/public")
+                .enableRouteOverview("/routes")
+                // Web socket maps to "/index" and takes in a ws object that has handlers for connection open/close and messaging events
+                .ws("/index", ws -> {
+                    ws.onConnect(session -> {
+                        /*
+                            Upon opening a websocket connection
+                            1. grabs the current user (after login)
+                            2. adds the user to onlineUsers
+                            3. broadcast into the channel that a user has entered
+                         */
+                        User user = UserController.getCurrentUser();
+                        onlineUsers.put(session, user.username);
+                        MessageHandler.handleMessage("server", null, (user.username + " has joined the chat"));
+                    });
+                    /*
+                        Upon receiving a message
+                        pass that to message handler lol
+                     */
+                    ws.onMessage((session, message) -> {
+                        MessageHandler.handleMessage(onlineUsers.get(session),null, message);
+                    });
+                    /*
+                        Upon websocket connection closing
+                        1. grabs the current user from online via key
+                        2. remove from view
+                     */
+                    ws.onClose((session, statusCode, reason) -> {
+                        String user = onlineUsers.get(session);
+                        onlineUsers.remove(user);
+                    });
+                })
                 .start();
 
-        // ensures users hit login page first
-        //app.before(LoginController.ensureLoginBeforeViewingApp);
-        // handle post data from "/login"
-        app.before(LoginController.ensureLoginBeforeViewingApp);
-        app.get(Path.Web.LOGIN, LoginController.serveLoginPage);
-        app.post(Path.Web.LOGIN, LoginController.handleLoginPost);
-        app.post(Path.Web.LOGOUT, LoginController.handleLogoutPost);
-        app.post(Path.Web.REGISTER, RegisterController.handleRegisterPost);
+
+        app.routes(() -> {
+            before(LoginController.ensureLoginBeforeViewingApp);
+            get(Path.Web.LOGIN, LoginController.serveLoginPage);
+            post(Path.Web.LOGIN, LoginController.handleLoginPost);
+            post(Path.Web.LOGOUT, LoginController.handleLogoutPost);
+            post(Path.Web.REGISTER, RegisterController.handleRegisterPost);
+        });
+
 
 
     }
