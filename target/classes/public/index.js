@@ -11,7 +11,7 @@ let ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/ind
 // Pseudocode: On event => doThis()
 ws.onopen = () => alert("Connected");
 ws.onmessage = msg => updateChat(msg);
-ws.onclose = ()=> alert("WebSocket connection closed");
+//ws.onclose = ()=> alert("WebSocket connection closed");
 
 // Add event listeners to button and input field
 //id("send").addEventListener("click", () => sendAndClear(id("message").value));
@@ -24,32 +24,35 @@ id("message").addEventListener("keypress", function(e) {
 
 let clicked = false;
 // highlights a user name on the list when double clicked
-document.querySelector("ul").addEventListener("dblclick", function(e) {
-   var selected;
-    if(clicked === true){
-        clicked = false;
-        if(e.target.tagName === "LI") {
-            selected = document.querySelector("li.selected");
-            if(selected)
-                selected.className = "";
-            e.target.className = "selected";
-            console.log(selected);
+let checkuser = document.querySelector("ul");
+if(checkuser){
+
+    checkuser.addEventListener("dblclick", function(e) {
+        let selected;
+        if(clicked === true){
+            clicked = false;
+            if(e.target.tagName === "LI") {
+                selected = document.querySelector("li.selected");
+                if(selected)
+                    selected.className = "";
+                e.target.className = "selected";
+                console.log(selected);
+            }
         }
-    }
-
-    else {
-        clicked = true;
-
-        if(e.target.tagName === "LI") {
-            selected = document.querySelector("li.selected");
-            if(selected)
-                selected.className = "";
-            e.target.className = "selected";
-            console.log(selected);
+        else {
+            clicked = true;
+            if(e.target.tagName === "LI") {
+                selected = document.querySelector("li.selected");
+                if(selected)
+                    selected.className = "";
+                e.target.className = "selected";
+                console.log(selected);
+            }
         }
-    }
 
-});
+    });
+}
+
 
 // send message via websocket and reset message value
 function sendAndClear(message) {
