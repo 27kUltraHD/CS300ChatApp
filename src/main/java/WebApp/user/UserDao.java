@@ -37,7 +37,7 @@ public class UserDao {
 
     private static void writeToAccounts(User user) {
         try {
-            fw = new FileWriter("C:\\Users\\HG0D-SSD\\Desktop\\CS300ChatApp\\accounts", true);
+            fw = new FileWriter("./accounts.txt", true);
             bw = new BufferedWriter(fw);
             String toWrite = user.username + ":" + user.password;
             //System.out.println(toWrite);
@@ -52,7 +52,7 @@ public class UserDao {
     private static Map<String, User>loadAccounts(Map<String, User> stringUserMap) {
         String line;
         try{
-           br = new BufferedReader(new FileReader("C:\\Users\\HG0D-SSD\\Desktop\\CS300ChatApp\\accounts"));
+           br = new BufferedReader(new FileReader("./accounts.txt"));
         }catch(FileNotFoundException fnfex) {
             out.println(fnfex.getMessage() + "the file not found");
 
@@ -67,6 +67,7 @@ public class UserDao {
                 // now, each index of holdData will be a separate user
                 // then it will iterate through each index and split the category into user:pw
                 // first index will be the name of the user
+
                 User userToAdd = new User(splitUserData[0], splitUserData[1]);
                 stringUserMap.put(userToAdd.username, userToAdd);
             }
