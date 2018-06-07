@@ -14,6 +14,7 @@ public class Path {
         public static final String LOGIN = "/login/login.html";
         public static final String REGISTER = "/register/register.html";
         public static final String NOT_FOUND = "/notFound.html";
+        public static final String INCORRECT_LOGIN = "incorrectLogin.html";
     }
 
 }

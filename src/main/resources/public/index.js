@@ -14,7 +14,7 @@ ws.onmessage = msg => updateChat(msg);
 ws.onclose = ()=> alert("WebSocket connection closed");
 
 // Add event listeners to button and input field
-id("send").addEventListener("click", () => sendAndClear(id("message").value));
+//id("send").addEventListener("click", () => sendAndClear(id("message").value));
 id("message").addEventListener("keypress", function(e) {
     // send message if 'enter' is pressed
     if(e.keyCode === 13) {

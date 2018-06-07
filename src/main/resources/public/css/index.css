@@ -2,6 +2,24 @@
     background: yellow;
 }
 
+#submit {
+    background-color: blue;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    border: 3px solid black;
+    padding: 10px;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -20,19 +38,29 @@ input {
 }
 
 button {
-    float: right;
+    float: bottom;
+    width: 100%;
 }
 
 li {
     margin: 5px 0;
 }
 
-#chatControls {
+#chatControls  {
     overflow: auto;
+    width: 50%;
 }
 
+#message {
+    position: absolute;
+    margin: auto;
+    width: 40%;
+    border: 3px solid black;
+    bottom: 30px;
+    padding: 10px;
+}
 #userlist {
-    position: fixed;
+    position: absolute;
     left: 50%;
     list-style: none;
     margin: 0 0 0 250px;
@@ -40,6 +68,7 @@ li {
     padding: 5px 10px;
     width: 150px;
     top: 30px;
+    right: 30px;
 }
 
 #chat p {

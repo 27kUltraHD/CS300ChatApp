@@ -20,13 +20,13 @@ public class LoginController {
         // if the user data is not found in the userDAO
         if(!UserController.authenticateCredentials(RequestUtil.getQueryUsername(ctx), RequestUtil.getQueryPassword(ctx))){
             // redirect back to login
-           ctx.redirect(Path.Template.LOGIN);
-            //ctx.request().setAttribute("errorMessage", "Invalid username/password, please try again");
+            ctx.html("Bad login credentials");
+            ctx.redirect(Path.Web.LOGIN, 500);
+
         }else { // successful login
             // sets "currentUser" to current user name
             // redirects to chatapp
             ctx.request().getSession().setAttribute("currentUser", RequestUtil.getQueryUsername(ctx));
-            ctx.request().setAttribute("errorMessage", null);
             ctx.redirect(Path.Template.INDEX);
         }
     };

@@ -47,7 +47,14 @@ public class Main {
                             3. broadcast into the channel that a user has entered
                          */
                         User user = UserController.getCurrentUser();
-                        onlineUsers.put(session, user.username);
+                        if(user == null){
+                            String uzer = "User";
+                            onlineUsers.put(session, uzer);
+
+                        }
+                        else
+                            onlineUsers.put(session, user.username);
+
                         MessageHandler.handleMessage("server", null, (user.username + " has joined the chat"));
                     });
                     /*
@@ -69,6 +76,13 @@ public class Main {
                 })
                 .start();
 
+        app.error(404, ctx ->{
+           ctx.redirect(Path.Template.NOT_FOUND) ;
+        });
+
+        app.error(500, ctx ->{
+            ctx.redirect(Path.Template.INCORRECT_LOGIN) ;
+        });
 
         app.routes(() -> {
             before(LoginController.ensureLoginBeforeViewingApp);
