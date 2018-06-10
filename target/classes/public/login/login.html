@@ -5,17 +5,30 @@
     <title>Login Page</title>
     <link rel="stylesheet" href="../css/index.css">
 </head>
+
+<!-- Button to open the modal login form -->
+<button onclick="document.getElementById('id01').style.display='block'">Login</button>
+
+<!-- The Modal -->
+<div id="id01" class="modal">
+  <span onclick="document.getElementById('id01').style.display='none'"
+        class="close" title="Close Modal">&times;</span>
+
 <body>
 <div class="center">
 
-    <p>Welcome to ChatApp</p>
-    <br>
+    <form class="modal-content animate" action="/login" method="post">
 
-    <form action="/login" method="post">
-        <input name="username" value="haison">
-        <input name="password" value="abc123">
+        <input name="username" placeholder="Enter your username">
+        <input name="password"  placeholder="Enter your password">
         <button id="submit">Login</button>
-
+        <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+        <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+            <span class="psw">Forgot <a href="#">password?</a></span>
+        </div>
         <p>If you're not registered, <a href="../register/register.html">register now</a></p>
 
     </form>
