@@ -7,14 +7,15 @@
 </head>
 <body>
 <div id="banner">
-    <h1>ChatApp</h1>, the world's next hottest chat application! <br><br>
+    ChatApp, the world's next hottest chat application! <br><br>
     <!-- Button to open the modal login form -->
     <button id="modal-login">Login</button>
 </div>
 <!-- The Modal -->
 <div id="id01" class="modal">
-  <span class="close" title="Close Modal">&times;</span>
-<div class="center">
+  <span id="close" title="Close Modal">&times;</span>
+
+    <div class="center">
     <form class="modal-content animate" action="/login" method="post">
         Login to Your Account<br>
         <input name="username" placeholder="Enter your username">
@@ -24,11 +25,12 @@
             <input type="checkbox" checked="checked" name="remember"> Remember me
         </label>
         <div class="container" style="background-color:#f1f1f1">
-            <button type="button" class="cancelbtn">Cancel</button>
+            <button type="button" id="cancelbtn">Cancel</button>
             <span class="psw">Forgot <a href="#">password?</a></span>
         </div>
         <p>If you're not registered, <a href="../register/register.html">register now</a></p>
     </form>
+    </div>
 </div>
 </body>
 <script src="login.js"></script>
