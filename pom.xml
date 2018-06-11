@@ -65,7 +65,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>WebApp.Chat</mainClass>
+                            <mainClass>WebApp.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
