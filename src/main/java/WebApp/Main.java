@@ -70,8 +70,10 @@ public class Main {
                         2. remove from view
                      */
                     ws.onClose((session, statusCode, reason) -> {
-                        String user = onlineUsers.get(session);
-                        onlineUsers.remove(user);
+                        User user = UserController.getCurrentUser();
+                        MessageHandler.handleMessage(session,"server", null, (user.username + " has left the chat"));
+
+                        onlineUsers.remove(user.username);
                     });
                 })
                 .start();
