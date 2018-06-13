@@ -40,9 +40,8 @@ public class UserDao {
             fw = new FileWriter("./accounts.txt", true);
             bw = new BufferedWriter(fw);
             String toWrite = user.username + ":" + user.password;
-            //System.out.println(toWrite);
-            bw.write("\n");
             bw.write(toWrite);
+            bw.write("\n");
             bw.close();
         } catch (IOException i) {
             System.exit(0);

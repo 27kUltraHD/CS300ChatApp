@@ -146,6 +146,7 @@ li {
 
 #chat {
     width: 100%;
+    overflow: auto;
 }
 
 #chat p {

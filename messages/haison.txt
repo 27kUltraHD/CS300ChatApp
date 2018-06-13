@@ -1,0 +1,6 @@
+server:haison has joined the chat
+haison:Hi there!
+haison:it's not going so well
+haison:Well.. I couldn't get my 1to1 user functionality working
+haison:bye
+server:haison has joined the chat

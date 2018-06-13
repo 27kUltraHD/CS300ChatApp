@@ -1,7 +1,7 @@
 package WebApp.register;
 
 import io.javalin.Handler;
-
+import java.io.File;
 import WebApp.user.UserController;
 import WebApp.util.Path;
 
@@ -19,9 +19,13 @@ public class RegisterController {
                 ctx.redirect(Path.Template.REGISTER);
         }
         else{
+            String path = "./messages/" + getQueryUsername(ctx) + ".txt";
+            File newUserFile = new File(path);
+            if(!newUserFile.exists())
+                newUserFile.createNewFile();
+
             UserController.addNewUser(getQueryUsername(ctx), getQueryPassword(ctx));
             ctx.redirect(Path.Web.LOGIN);
         }
-
     };
 }

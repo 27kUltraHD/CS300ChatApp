@@ -50,19 +50,19 @@ public class Main {
                         if(user == null){
                             String uzer = "User";
                             onlineUsers.put(session, uzer);
-
                         }
                         else
                             onlineUsers.put(session, user.username);
-
-                        MessageHandler.handleMessage("server", null, (user.username + " has joined the chat"));
+                        // upon connection, load history
+                        MessageHandler.loadMessageHistory(session);
+                        MessageHandler.handleMessage(session,"server", null, (user.username + " has joined the chat"));
                     });
                     /*
                         Upon receiving a message
                         pass that to message handler lol
                      */
                     ws.onMessage((session, message) -> {
-                        MessageHandler.handleMessage(onlineUsers.get(session),null, message);
+                        MessageHandler.handleMessage(session, onlineUsers.get(session),null, message);
                     });
                     /*
                         Upon websocket connection closing
