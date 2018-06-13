@@ -1,6 +1,6 @@
+server:haison has joined the chat
+fei:hi haison
+haison:hi fei
+haison:bye
 server:fei has joined the chat
-fei:Hello
-fei:How is your project going?
-fei:Why not?
-fei:thats too bad man
-fei:bye
+server:haison has joined the chat

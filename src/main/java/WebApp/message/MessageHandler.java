@@ -10,7 +10,6 @@ import static j2html.TagCreator.b;
 import static j2html.TagCreator.p;
 import static j2html.TagCreator.span;
 
-
 import static WebApp.Main.*;
 
 import java.text.SimpleDateFormat;
@@ -24,21 +23,19 @@ public class MessageHandler {
 
     public static void handleMessage(WsSession session, String sender, String recipient, String message){
         if(recipient == null) {
-            HistoryUtil.saveMessage(onlineUsers.get(session), sender, message);
             broadcastMessage(sender, message);
         }
         else {
             sendMessage(sender, recipient, message);
         }
-
     }
     public static void sendMessage(String sender, String recipient, String message){
 
     }
 
     public static void loadMessageHistory(WsSession session){
-
-        Queue<String> history = HistoryUtil.grabMessageHistory(onlineUsers.get(session));
+        String user = onlineUsers.get(session);
+        Queue<String> history = HistoryUtil.grabMessageHistory(user);
                 try{
                     for(String msg: history){
                         String[] fullString = msg.split(":");
@@ -49,12 +46,11 @@ public class MessageHandler {
                                         .put("userMessage", createHtmlMessageFromSender(sender, message))
                                         .put("userlist", onlineUsers.values()).toString()
                         );
+
                     }
                 } catch (Exception e){
                         e.printStackTrace();
                     }
-
-
     }
 
     // broadcast to "all users"
@@ -67,6 +63,8 @@ public class MessageHandler {
                         .put("userMessage", createHtmlMessageFromSender(sender, message))
                         .put("userlist", onlineUsers.values()).toString()
                 );
+                String user = onlineUsers.get(session);
+                HistoryUtil.saveMessage(user, sender, message);
             } catch (Exception e){
                 e.printStackTrace();
             }
